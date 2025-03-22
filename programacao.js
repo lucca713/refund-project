@@ -3,6 +3,8 @@ const  amount = document.querySelector("#amount")
 const expense = document.querySelector("#expense")
 const category = document.querySelector("#category")
 const form = document.querySelector("form")
+const lista = document.querySelector("ul")
+
 
 //captura evento de input para formatar o valor
 amount.oninput = () =>{
@@ -24,7 +26,44 @@ function formatCurrencyBRL(value){
 }
 
 
+//captura evento de submite
 form.onsubmit = (event) =>{
     event.preventDefault()
+//struct com todos os valores do formulario
+    const newExpense = {
+        id: new Date().getTime(),
+        expense: expense.value,
+        category_id: category.value,
+        category_name: category.options[category.selectedIndex].text,
+        amount: amount.value,
+        created_at: new Date(),
+    }   
+
+    console.log(newExpense)
+    expenseAdd(newExpense)
+   
+}
+
+function expenseAdd(newExpense){
+   try{
     
+    //criar elemento que vai parecer na lista
+
+      const expenseItem = document.createElement("li") 
+      const expenseIcon = document.createElement("img")
+
+      expenseItem.classList.add("expense") 
+       
+      expenseIcon.setAttribute("src", `img/${newExpense.category_id}.svg`)
+
+      expenseIcon.setAttribute("alt", newExpense.category_name)
+      
+      expenseItem.append(expenseIcon)
+
+      lista.append(expenseItem)
+
+   }catch(error){
+    alert("nao foi possivel atualizar a lista lista de despesas")
+    console.log(error)
+   }
 }
