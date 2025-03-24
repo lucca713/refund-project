@@ -50,34 +50,49 @@ function expenseAdd(newExpense){
     //criar elemento que vai parecer na lista
 
       const expenseItem = document.createElement("li") 
+      expenseItem.classList.add("expense") 
       const expenseIcon = document.createElement("img")
 
       //categoria
-      const expenseInfo = document.createElement("div")
-      const expenseName = document.createElement("strong")
-      const expenseCat = document.createElement("span")  
+        const expenseInfo = document.createElement("div")
+        const expenseName = document.createElement("strong")
+        const expenseCat = document.createElement("span")  
       //fim categoria  
 
-      expenseItem.classList.add("expense") 
-       
+      //info despesa
+        const expenseAmount = document.createElement("span") 
+        expenseAmount.classList.add("expense-amount") 
+
+        expenseAmount.innerHTML = `<small>R$</small>${newExpense.amount.toUpperCase().replace("R$","")}`
+      //fim info despesa
+
+     //inicio icon  
       expenseIcon.setAttribute("src", `img/${newExpense.category_id}.svg`)
 
       expenseIcon.setAttribute("alt", newExpense.category_name)
-      
-      expenseItem.append(expenseIcon)
-
+    //fim icon 
+    
       //categoria
-      expenseInfo.classList.add("expense-info") 
-      expenseName.textContent = newExpense.expense
-      expenseCat.textContent = newExpense.category_name
+        expenseInfo.classList.add("expense-info") 
+        expenseName.textContent = newExpense.expense
+        expenseCat.textContent = newExpense.category_name
 
-      expenseInfo.append(expenseName,expenseCat)
-
+        expenseInfo.append(expenseName,expenseCat)
      //fim categoria  
+       
+     //inicio icon del
+
+        const delIcon = document.createElement("img")
+        delIcon.classList.add("remove-icon")
+        delIcon.setAttribute("src", "img/remove.svg")
+        delIcon.setAttribute("alt", "remover")
+    
+     //fim icon del
+
      
+     expenseItem.append(expenseIcon, expenseInfo,expenseAmount, delIcon)
+     lista.append(expenseItem)
      
-      lista.append(expenseItem)
-      lista.append(expenseInfo)
 
    }catch(error){
     alert("nao foi possivel atualizar a lista lista de despesas")
