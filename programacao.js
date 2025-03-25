@@ -4,7 +4,8 @@ const expense = document.querySelector("#expense")
 const category = document.querySelector("#category")
 const form = document.querySelector("form")
 const lista = document.querySelector("ul")
-
+const contador = document.querySelector("aside header p span")
+const expenseTotal = document.querySelector("aside header h2")
 
 //captura evento de input para formatar o valor
 amount.oninput = () =>{
@@ -39,11 +40,12 @@ form.onsubmit = (event) =>{
         created_at: new Date(),
     }   
 
-    console.log(newExpense)
+    
     expenseAdd(newExpense)
    
 }
 
+//add novo item na lista
 function expenseAdd(newExpense){
    try{
     
@@ -92,10 +94,46 @@ function expenseAdd(newExpense){
      
      expenseItem.append(expenseIcon, expenseInfo,expenseAmount, delIcon)
      lista.append(expenseItem)
-     
+     updateTotals()
 
    }catch(error){
     alert("nao foi possivel atualizar a lista lista de despesas")
     console.log(error)
    }
+}
+
+//calcular itens la lista
+
+function updateTotals(){
+
+    try{
+      //recuperar todo os itens da lista
+      const itens = lista.children
+      
+      //atualiza iten da lista
+      contador.textContent = `${itens.length} ${itens.length > 1 ? "despesas" : "despesa"}`
+
+      //calcular o total das despesas 
+      let total = 0
+
+      for(let item = 0; item < itens.length; item++){
+          let itemAmount = itens[item].querySelector(".expense-amount")
+
+      //trocando qualquer coisa que nao seja numero por numero e ponto por virgula    
+      let value = itemAmount.textContent.replace(/[^\d]/g,"").replace(",",".")
+      
+      value = parseFloat(value)
+
+      total += value
+      console.log(total)
+      }
+
+    //criar a span para adicionar o R$ formatado
+      const sybolBRL = document.createElement("small")
+      Symbol.textContent = "R$"
+
+    }catch(error){
+      alert("Erro ao somar os valores da lista")
+    }
+
 }
