@@ -17,6 +17,7 @@ amount.oninput = () =>{
 }
 
 
+
 function formatCurrencyBRL(value){
     value = value.toLocaleString("pt-BR",{
         style:"currency",
@@ -28,6 +29,7 @@ function formatCurrencyBRL(value){
 
 
 //captura evento de submite
+
 form.onsubmit = (event) =>{
     event.preventDefault()
 //struct com todos os valores do formulario
@@ -40,12 +42,12 @@ form.onsubmit = (event) =>{
         created_at: new Date(),
     }   
 
-    
     expenseAdd(newExpense)
-   
+    formClear()
 }
 
 //add novo item na lista
+
 function expenseAdd(newExpense){
    try{
     
@@ -108,32 +110,67 @@ function updateTotals(){
 
     try{
       //recuperar todo os itens da lista
-      const itens = lista.children
+        const itens = lista.children
       
       //atualiza iten da lista
-      contador.textContent = `${itens.length} ${itens.length > 1 ? "despesas" : "despesa"}`
+        contador.textContent = `${itens.length} ${itens.length > 1 ? "despesas" : "despesa"}`
 
       //calcular o total das despesas 
-      let total = 0
+        let total = 0
 
       for(let item = 0; item < itens.length; item++){
           let itemAmount = itens[item].querySelector(".expense-amount")
 
       //trocando qualquer coisa que nao seja numero por numero e ponto por virgula    
-      let value = itemAmount.textContent.replace(/[^\d]/g,"").replace(",",".")
+      let value = itemAmount.textContent.replace(/[^\d,]/g,"").replace(",",".")
       
       value = parseFloat(value)
 
       total += value
-      console.log(total)
+     
+
       }
 
     //criar a span para adicionar o R$ formatado
-      const sybolBRL = document.createElement("small")
-      Symbol.textContent = "R$"
+      const symbolBRL = document.createElement("small")
+      symbolBRL.textContent = "R$"
+
+    //exibido no total    
+      total = formatCurrencyBRL(total).toUpperCase().replace("R$","")
+
+      expenseTotal.innerHTML = ""
+      expenseTotal.append(symbolBRL, total)
 
     }catch(error){
+      console.log(error)
       alert("Erro ao somar os valores da lista")
     }
 
+}
+
+//evento que captura click dos itens da lista
+
+lista.addEventListener("click", function(event){
+
+  if(event.target.classList.contains("remove-icon")){
+
+      //obten a li pai
+      const item = event.target.closest(".expense")
+
+      //remove o item pai da lista
+      item.remove()
+      
+  }
+
+    updateTotals()
+})
+
+
+function formClear(){
+
+    expense.value = ""
+    category.value = ""
+    amount.value = ""
+
+    expense.focus()
 }
