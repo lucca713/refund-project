@@ -52,6 +52,7 @@ Se deseja contribuir para o projeto, sinta-se à vontade para abrir uma issue ou
 
 🔗 Contato
 
-💼 LinkedIn
+💼 LinkedIn https://www.linkedin.com/in/lucca-santos-cerasomma-15925b203/
+
 
 
